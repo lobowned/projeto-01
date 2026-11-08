@@ -56,7 +56,7 @@ async function entrar(navegador, email, apelido) {
   await p.fill("input[name=apelido]", apelido);
   await p.fill("input[name=codigo]", sql("select codigo_convite from config"));
   await p.click("button:has-text('Entrar')");
-  await p.waitForURL(`${APP}/`);
+  await p.waitForURL(`${APP}/slots`);
   confere(true, `${apelido}: entrou no grupo`);
   return { p, erros };
 }
@@ -72,6 +72,8 @@ confere(saldoBanco("Ana") === 1000, "Ana começa com 1.000 fichas");
 confere(sql("select admin from perfis where apelido = 'Ana'") === "t", "primeira a entrar virou admin");
 
 const p = ana.p;
+await p.goto(`${APP}/admin`);
+confere((await p.textContent("[data-testid=convite]")) === sql("select codigo_convite from config"), "admin vê o código de convite");
 await p.goto(`${APP}/slots`);
 confere((await p.locator("a[href^='/slots/']").count()) === 3, "saguão mostra as 3 máquinas");
 await p.click("text=Bônus diário");

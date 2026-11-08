@@ -1,6 +1,6 @@
 # R4 Bet
 
-Apostas esportivas e caça-níqueis entre amigos **valendo fichas** (sem dinheiro). Feito com Next.js 14 + Supabase.
+Caça-níqueis entre amigos **valendo fichas** (sem dinheiro). Feito com Next.js 14 + Supabase.
 
 Fichas não podem ser compradas, vendidas nem trocadas por dinheiro dentro do app. Se o grupo quiser um prêmio para o 1º do ranking, combinem por fora.
 
@@ -8,12 +8,10 @@ Fichas não podem ser compradas, vendidas nem trocadas por dinheiro dentro do ap
 
 1. Cada amigo faz login pelo e-mail (link mágico) e entra no grupo com o **código de convite**.
 2. Todo mundo começa com **1.000 fichas**.
-3. O **admin** (o primeiro a entrar no grupo) cadastra os jogos com as odds de casa, empate e fora.
-4. Os amigos apostam até o horário de início do jogo.
-5. Depois do jogo, o admin informa o resultado e o app paga as apostas vencedoras.
-6. Nos **caça-níqueis** (`/slots`) há 3 máquinas, com apostas de 5 a 500 fichas.
-7. Todo dia cada um pode pegar **100 fichas de bônus**.
-8. O **ranking** mostra quem tem mais fichas e quantas apostas cada um acertou.
+3. Há 3 **caça-níqueis** (`/slots`), com apostas de 5 a 500 fichas por giro.
+4. Todo dia cada um pode pegar **100 fichas de bônus**.
+5. O **ranking** mostra quem tem mais fichas.
+6. O **admin** (o primeiro a entrar) vê o código de convite em `/admin`.
 
 ## Caça-níqueis
 
@@ -31,13 +29,10 @@ Os números foram conferidos em 150 mil giros simulados por máquina, e o cálcu
 
 | Rota | O que tem |
 |---|---|
-| `/` | Próximos jogos |
-| `/evento/[id]` | Odds e cupom de aposta |
-| `/conta` | Suas fichas e suas apostas |
 | `/slots` | Escolha da máquina e bônus diário |
 | `/slots/[maquina]` | Jogo (`frutas`, `pirata` ou `trevo`) |
 | `/ranking` | Classificação do grupo |
-| `/admin` | Código de convite, criar jogos, definir resultados (só admin) |
+| `/admin` | Código de convite (só admin) |
 
 ## Colocando no ar
 

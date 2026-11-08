@@ -12,7 +12,10 @@ export default async function Cassino() {
 
   return (
     <section className="space-y-4">
-      <h1 className="text-xl font-semibold">Caça-níqueis</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-semibold">Caça-níqueis</h1>
+        {perfil.admin && <Link href="/admin" className="text-sm text-marca">Painel admin</Link>}
+      </div>
       <BotaoBonus saldoInicial={eu?.fichas ?? 0} />
       <div className="grid gap-3 sm:grid-cols-3">
         {MAQUINAS.map((m) => (

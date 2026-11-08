@@ -8,7 +8,7 @@ async function entrar(form: FormData) {
     p_apelido: String(form.get("apelido") ?? "").trim(),
   });
   if (error) redirect(`/entrar?erro=${encodeURIComponent(error.message)}`);
-  redirect("/");
+  redirect("/slots");
 }
 
 export default async function Entrar({ searchParams }: { searchParams: { erro?: string } }) {

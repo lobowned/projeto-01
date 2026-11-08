@@ -15,8 +15,7 @@ export default async function Ranking() {
           <li key={p.id} className={`flex items-center justify-between rounded p-3 ${p.id === perfil.id ? "bg-marca/20" : "bg-neutral-900"}`}>
             <span><strong className="mr-2">{i + 1}º</strong>{p.apelido}</span>
             <span className="text-right text-sm">
-              <strong>{formatarFichas(p.fichas)}</strong><br />
-              <span className="text-neutral-400">{p.acertos}/{p.finalizadas} acertos</span>
+              <strong>{formatarFichas(p.fichas)}</strong>
             </span>
           </li>
         ))}
