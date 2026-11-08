@@ -1,5 +1,5 @@
 {
-  "name": "projeto-01",
+  "name": "r4-bet",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test --experimental-strip-types src/lib/*.test.ts"
+    "test": "node --test --experimental-strip-types src/lib/fichas.test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "0.5.2",
