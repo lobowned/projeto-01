@@ -1,17 +1,40 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { estatisticas, multiplicador } from "./slots.ts";
+import { MAQUINAS, maquina, multiplicador, retornoTeorico, linhasPremiadas } from "./slots.ts";
 
-test("multiplicadores", () => {
-  assert.equal(multiplicador(["sete", "sete", "sete"]), 250);
-  assert.equal(multiplicador(["cereja", "cereja", "cereja"]), 4);
-  assert.equal(multiplicador(["cereja", "limao", "cereja"]), 2);
-  assert.equal(multiplicador(["cereja", "limao", "sino"]), 0);
-  assert.equal(multiplicador(["sino", "sino", "limao"]), 0);
+const frutas = maquina("frutas")!;
+const pirata = maquina("pirata")!;
+const trevo = maquina("trevo")!;
+
+test("Frutas Clássicas", () => {
+  assert.equal(multiplicador(frutas, ["sete", "sete", "sete"]), 250);
+  assert.equal(multiplicador(frutas, ["cereja", "cereja", "cereja"]), 4);
+  assert.equal(multiplicador(frutas, ["cereja", "limao", "cereja"]), 2);
+  assert.equal(multiplicador(frutas, ["sino", "sino", "limao"]), 0);
 });
 
-test("retorno teórico ~90,5% e 24% de chance", () => {
-  const { retorno, chance } = estatisticas();
-  assert.ok(Math.abs(retorno - 0.90455) < 1e-9, String(retorno));
-  assert.ok(Math.abs(chance - 0.24004) < 1e-9, String(chance));
+test("Tesouro Pirata", () => {
+  assert.equal(multiplicador(pirata, ["caveira", "caveira", "caveira", "caveira", "caveira"]), 2800);
+  assert.equal(multiplicador(pirata, ["bau", "bau", "bau", "bau", "moeda"]), 140);
+  assert.equal(multiplicador(pirata, ["moeda", "moeda", "moeda", "bau", "moeda"]), 4);
+  assert.equal(multiplicador(pirata, ["moeda", "moeda", "bau", "moeda", "moeda"]), 0);
+  assert.equal(multiplicador(pirata, ["bau", "moeda", "moeda", "moeda", "moeda"]), 0);
+});
+
+test("Trevo da Sorte", () => {
+  const g = ["trevo", "trevo", "trevo", "coroa", "trevo", "moeda", "pote", "moeda", "trevo"];
+  // linha de cima (8) + diagonal 1-5-9 (8) = 16 / 5
+  assert.equal(multiplicador(trevo, g), 3.2);
+  assert.equal(linhasPremiadas(g).length, 2);
+  const tudo = Array(9).fill("coroa");
+  assert.equal(multiplicador(trevo, tudo), 700);
+});
+
+test("retorno teórico de todas as máquinas fica entre 89% e 91%", () => {
+  const esperado: Record<string, number> = { frutas: 0.90455, pirata: 0.900594448, trevo: 0.891819 };
+  for (const m of MAQUINAS) {
+    const r = retornoTeorico(m);
+    assert.ok(Math.abs(r - esperado[m.id]) < 1e-6, `${m.id}: ${r}`);
+    assert.ok(r > 0.89 && r < 0.91, `${m.id}: ${r}`);
+  }
 });

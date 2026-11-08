@@ -1,30 +1,30 @@
+import Link from "next/link";
 import { exigirParticipante } from "@/lib/sessao";
-import { MULT_TRINCA, SIMBOLOS } from "@/lib/slots";
-import Maquina from "@/components/Maquina";
+import { MAQUINAS, retornoTeorico } from "@/lib/slots";
+import { formatarFichas } from "@/lib/fichas";
+import BotaoBonus from "@/components/BotaoBonus";
 
 export const dynamic = "force-dynamic";
 
-export default async function Slots() {
+export default async function Cassino() {
   const { sb, perfil } = await exigirParticipante();
-  const [{ data: eu }, { data: rodadas }] = await Promise.all([
-    sb.from("ranking").select("fichas").eq("id", perfil.id).single(),
-    sb.from("slot_rodadas").select("id, aposta, rolos, premio").order("id", { ascending: false }).limit(10),
-  ]);
+  const { data: eu } = await sb.from("ranking").select("fichas").eq("id", perfil.id).single();
 
   return (
-    <section className="space-y-6">
-      <h1 className="text-xl font-semibold">Caça-níquel</h1>
-      <Maquina saldoInicial={eu?.fichas ?? 0} historicoInicial={rodadas ?? []} />
-
-      <div className="rounded-lg bg-neutral-900 p-4">
-        <h2 className="mb-2 font-semibold">Tabela de prêmios</h2>
-        <ul className="grid grid-cols-2 gap-1 text-sm">
-          {Object.entries(MULT_TRINCA).reverse().map(([s, m]) => (
-            <li key={s}>{SIMBOLOS[s].repeat(3)} <strong>{m}x</strong></li>
-          ))}
-          <li>{SIMBOLOS.cereja}{SIMBOLOS.cereja} + outro <strong>2x</strong></li>
-        </ul>
-        <p className="mt-2 text-xs text-neutral-400">Retorno médio de 90,5% das fichas apostadas. Sorteio feito no servidor.</p>
+    <section className="space-y-4">
+      <h1 className="text-xl font-semibold">Caça-níqueis</h1>
+      <BotaoBonus saldoInicial={eu?.fichas ?? 0} />
+      <div className="grid gap-3 sm:grid-cols-3">
+        {MAQUINAS.map((m) => (
+          <Link key={m.id} href={`/slots/${m.id}`} className={`block rounded-xl border-2 ${m.cor} bg-neutral-900 p-4 hover:bg-neutral-800`}>
+            <p className="text-3xl">{m.simbolos.slice(-3).map((s) => s.emoji).join("")}</p>
+            <p className="mt-2 font-semibold">{m.nome}</p>
+            <p className="text-sm text-neutral-400">{m.descricao}</p>
+            <p className="mt-2 text-xs text-neutral-500">
+              Retorno médio {(retornoTeorico(m) * 100).toFixed(1).replace(".", ",")}% · Maior prêmio {formatarFichas(Math.max(...m.simbolos.map((s) => s.pagamentos.at(-1)!)))} por ficha{m.tipo === "grade3x3" ? " de linha" : ""}
+            </p>
+          </Link>
+        ))}
       </div>
     </section>
   );

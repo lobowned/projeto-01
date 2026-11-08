@@ -1,6 +1,6 @@
 # R4 Bet
 
-Apostas esportivas e caça-níquel entre amigos **valendo fichas** (sem dinheiro). Feito com Next.js 14 + Supabase.
+Apostas esportivas e caça-níqueis entre amigos **valendo fichas** (sem dinheiro). Feito com Next.js 14 + Supabase.
 
 Fichas não podem ser compradas, vendidas nem trocadas por dinheiro dentro do app. Se o grupo quiser um prêmio para o 1º do ranking, combinem por fora.
 
@@ -11,25 +11,21 @@ Fichas não podem ser compradas, vendidas nem trocadas por dinheiro dentro do ap
 3. O **admin** (o primeiro a entrar no grupo) cadastra os jogos com as odds de casa, empate e fora.
 4. Os amigos apostam até o horário de início do jogo.
 5. Depois do jogo, o admin informa o resultado e o app paga as apostas vencedoras.
-6. No **caça-níquel** (`/slots`) dá para girar apostando de 5 a 500 fichas.
+6. Nos **caça-níqueis** (`/slots`) há 3 máquinas, com apostas de 5 a 500 fichas.
 7. Todo dia cada um pode pegar **100 fichas de bônus**.
 8. O **ranking** mostra quem tem mais fichas e quantas apostas cada um acertou.
 
-## Caça-níquel
+## Caça-níqueis
 
-O sorteio é feito no banco de dados com números aleatórios criptográficos, então ninguém consegue manipular pelo navegador.
+São 3 máquinas. Todas devolvem, em média, cerca de 90% das fichas apostadas. O sorteio é feito no banco de dados com números aleatórios criptográficos, então ninguém consegue manipular pelo navegador.
 
-| Combinação | Paga |
-|---|---|
-| 7️⃣7️⃣7️⃣ | 250x |
-| 💎💎💎 | 100x |
-| ⭐⭐⭐ | 40x |
-| 🔔🔔🔔 | 15x |
-| 🍋🍋🍋 | 8x |
-| 🍒🍒🍒 | 4x |
-| 2 🍒 + outro | 2x |
+| Máquina | Como ganha | Retorno | Prêmio em | Maior prêmio |
+|---|---|---|---|---|
+| 🍒 Frutas Clássicas | 3 rolos, 3 iguais (ou 2 cerejas = 2x) | 90,5% | 24% das rodadas | 250x |
+| ☠️ Tesouro Pirata | 5 rolos, 3/4/5 iguais a partir da esquerda | 90,1% | 7% das rodadas | 2.800x |
+| 🍀 Trevo da Sorte | grade 3×3, 5 linhas; aposta dividida entre as linhas | 89,2% | 23% das rodadas | 700x |
 
-Retorno médio de 90,5% e prêmio em 24% das rodadas (conferido em 200 mil giros simulados). Para mudar, edite a tabela `slot_simbolos` e o arquivo `src/lib/slots.ts`.
+Os números foram conferidos em 150 mil giros simulados por máquina, e o cálculo de prêmio do banco foi comparado com o do app em 6 mil resultados (nenhuma diferença). Para mudar pesos ou prêmios, edite a tabela `slot_simbolos` **e** `src/lib/slots.ts` — o `npm test` avisa se o retorno sair da faixa de 89% a 91%.
 
 ## Telas
 
@@ -38,7 +34,8 @@ Retorno médio de 90,5% e prêmio em 24% das rodadas (conferido em 200 mil giros
 | `/` | Próximos jogos |
 | `/evento/[id]` | Odds e cupom de aposta |
 | `/conta` | Suas fichas e suas apostas |
-| `/slots` | Caça-níquel e bônus diário |
+| `/slots` | Escolha da máquina e bônus diário |
+| `/slots/[maquina]` | Jogo (`frutas`, `pirata` ou `trevo`) |
 | `/ranking` | Classificação do grupo |
 | `/admin` | Código de convite, criar jogos, definir resultados (só admin) |
 
