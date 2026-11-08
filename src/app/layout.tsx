@@ -11,6 +11,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <header className="border-b border-neutral-800 px-4 py-3 flex items-center justify-between">
           <Link href="/" className="font-bold text-marca">R4 Bet</Link>
           <nav className="flex gap-4 text-sm">
+            <Link href="/slots">Slots</Link>
             <Link href="/ranking">Ranking</Link>
             <Link href="/conta">Minhas apostas</Link>
           </nav>
