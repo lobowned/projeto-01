@@ -51,11 +51,15 @@ Os números foram conferidos em 150 mil giros simulados por máquina, e o cálcu
 
 ```bash
 npm install
-cp .env.example .env.local
-npx supabase db reset   # aplica o esquema e os jogos de exemplo (supabase/seed.sql)
+npx supabase start      # sobe um Supabase completo local (precisa de Docker) e aplica as migrations
+cp .env.example .env.local   # use a URL e a ANON_KEY que o comando acima mostrar
 npm run dev
-npm test
+npm test                # testes de regras e do retorno das máquinas
 ```
+
+### Teste de ponta a ponta
+
+Com o Supabase local e o app rodando (`npm run build && npx next start -H 127.0.0.1`), rode `npm run test:e2e`. Ele usa um navegador de verdade para: fazer login pelo link mágico (lido no Mailpit do Supabase), entrar no grupo com o código de convite, pegar o bônus, girar 10 vezes cada máquina conferindo o saldo da tela com o banco, e checar que um segundo jogador não vira admin.
 
 Para trocar o código de convite ou as fichas iniciais, rode no SQL Editor:
 

@@ -9,7 +9,7 @@ export default function Login() {
   async function entrar(e: React.FormEvent) {
     e.preventDefault();
     const { error } = await supabaseNavegador().auth.signInWithOtp({
-      email, options: { emailRedirectTo: `${location.origin}/entrar` },
+      email, options: { emailRedirectTo: `${location.origin}/auth/callback` },
     });
     setMsg(error ? error.message : "Enviamos um link de acesso para seu e-mail.");
   }

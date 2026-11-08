@@ -61,8 +61,9 @@ create table public.slot_rodadas (
 create index on public.slot_rodadas (usuario_id, maquina, id desc);
 
 -- Número aleatório criptográfico entre 0 e n-1 (sem viés de módulo)
+-- No Supabase o pgcrypto fica no schema "extensions"; num Postgres comum, em "public".
 create or replace function public.aleatorio(n int)
-returns int language plpgsql volatile set search_path = public as $$
+returns int language plpgsql volatile set search_path = public, extensions as $$
 declare v bigint; limite bigint := (4294967296 / n) * n;
 begin
   loop
